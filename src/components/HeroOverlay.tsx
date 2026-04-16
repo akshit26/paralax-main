@@ -23,6 +23,7 @@ export default function HeroOverlay() {
           <a href="#explore" className="nav-link">EXPLORE</a>
           <a href="#services" className="nav-link">SERVICES</a>
           <a href="#contact" className="nav-link">CONTACT</a>
+          <a href="#login" className="nav-link">LOGIN</a>
         </div>
       </nav>
 

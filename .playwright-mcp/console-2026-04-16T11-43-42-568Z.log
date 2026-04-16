@@ -1,0 +1,24 @@
+[    1356ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[    1502ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[    2055ms] [WARNING] THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[    2241ms] [WARNING] THREE.GLTFLoader: Unknown extension "KHR_materials_pbrSpecularGlossiness". @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   10522ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   10538ms] [LOG] [Fast Refresh] done in 115ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   18374ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   18404ms] [LOG] [Fast Refresh] done in 135ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   19099ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   19295ms] [LOG] [Fast Refresh] done in 302ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   27649ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   27650ms] [LOG] [Fast Refresh] done in 106ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   35683ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   35688ms] [LOG] [Fast Refresh] done in 106ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   37206ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   37387ms] [LOG] [Fast Refresh] done in 286ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   45081ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   45114ms] [LOG] [Fast Refresh] done in 136ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   89131ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   89401ms] [LOG] [Fast Refresh] done in 313ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   89519ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   90050ms] [LOG] [Fast Refresh] done in 637ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   93181ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
+[   93447ms] [LOG] [Fast Refresh] done in 366ms @ http://localhost:3000/_next/static/chunks/0uea_next_dist_01srl-j._.js:2431
