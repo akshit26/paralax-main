@@ -17,6 +17,7 @@ type OrbitConfig = {
 };
 
 const SOLAR_CENTER: [number, number, number] = [0, -96, -72];
+// final merge choice: compact solar system in one viewport section
 
 const ORBITS: OrbitConfig[] = [
   { modelUrl: "/planet1.glb", label: "AI\nAUTOMATION", radius: 12, speed: 0.2, scale: 1.0, angleOffset: 0.4 },

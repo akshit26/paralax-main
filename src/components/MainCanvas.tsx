@@ -15,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const CAMERA_START_Y = 30;
 const CAMERA_END_Y = -96;
+// final merge choice: single hero-to-solar camera travel
 
 function CameraController() {
   const group = useRef<THREE.Group>(null);
