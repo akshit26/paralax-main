@@ -3,6 +3,7 @@
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
+import { rangeFromSeed } from "@/utils/seededRandom";
 
 /* ═══════════════════════════════════════════
    SCENE 3 — SKY  (z = -115 → -175)
@@ -15,7 +16,7 @@ function CartoonCloud({ position, scale = 1 }: {
   position: [number, number, number]; scale?: number;
 }) {
   const ref = useRef<THREE.Group>(null);
-  const driftSpeed = useMemo(() => 0.05 + Math.random() * 0.1, []);
+  const driftSpeed = useMemo(() => rangeFromSeed(position[0] * 7 + position[1] * 11, 0.05, 0.15), [position]);
   const baseX = position[0];
 
   useFrame((s) => {

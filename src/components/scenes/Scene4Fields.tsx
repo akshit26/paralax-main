@@ -3,6 +3,7 @@
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
+import { rangeFromSeed, seededRandom } from "@/utils/seededRandom";
 
 /* ═══════════════════════════════════════════
    SCENE 4 — FIELDS  (z = -175 → -235)
@@ -167,9 +168,10 @@ function Butterflies({ count = 15, zCenter = -205 }: { count?: number; zCenter?:
   const positions = useMemo(() => {
     const a = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      a[i * 3]     = (Math.random() - 0.5) * 30;
-      a[i * 3 + 1] = 1 + Math.random() * 5;
-      a[i * 3 + 2] = zCenter + (Math.random() - 0.5) * 40;
+      const seed = i * 13.37 + zCenter * 0.1;
+      a[i * 3] = rangeFromSeed(seed + 1, -15, 15);
+      a[i * 3 + 1] = rangeFromSeed(seed + 2, 1, 6);
+      a[i * 3 + 2] = zCenter + rangeFromSeed(seed + 3, -20, 20);
     }
     return a;
   }, [count, zCenter]);
@@ -198,12 +200,13 @@ function Butterflies({ count = 15, zCenter = -205 }: { count?: number; zCenter?:
 
 export default function Scene4Fields() {
   const flowers = useMemo(() => {
-    const arr = [];
+    const arr: { pos: [number, number, number]; color: string }[] = [];
     const petalColors = ["#ff6688", "#ff88aa", "#ffaa44", "#ff4466", "#ee66cc", "#ffdd66"];
     for (let i = 0; i < 40; i++) {
+      const seed = i * 17.71;
       arr.push({
-        pos: [(Math.random() - 0.5) * 30, 0, -180 - Math.random() * 50] as [number, number, number],
-        color: petalColors[Math.floor(Math.random() * petalColors.length)],
+        pos: [rangeFromSeed(seed + 1, -15, 15), 0, rangeFromSeed(seed + 2, -230, -180)],
+        color: petalColors[Math.floor(seededRandom(seed + 3) * petalColors.length)],
       });
     }
     return arr;

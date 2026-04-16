@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useState, ReactNode } from "react";
-import * as THREE from "three";
+import { ReactNode, useMemo, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 
@@ -13,13 +12,15 @@ import { Html } from "@react-three/drei";
 export default function ProximityHtml({
   position,
   targetZ,
+  targetPosition,
   range = 25,
   children,
   distanceFactor = 10,
   ...htmlProps
 }: {
   position: [number, number, number];
-  targetZ: number;
+  targetZ?: number;
+  targetPosition?: [number, number, number];
   range?: number;
   children: ReactNode;
   distanceFactor?: number;
@@ -27,9 +28,16 @@ export default function ProximityHtml({
 }) {
   const [visible, setVisible] = useState(false);
   const { camera } = useThree();
+  const fallbackZ = useMemo(() => targetZ ?? position[2], [position, targetZ]);
 
   useFrame(() => {
-    const dist = Math.abs(camera.position.z - targetZ);
+    const dist = targetPosition
+      ? Math.hypot(
+          camera.position.x - targetPosition[0],
+          camera.position.y - targetPosition[1],
+          camera.position.z - targetPosition[2]
+        )
+      : Math.abs(camera.position.z - fallbackZ);
     const shouldShow = dist < range;
     if (shouldShow !== visible) setVisible(shouldShow);
   });

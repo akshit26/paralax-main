@@ -4,6 +4,7 @@ import { useRef, useMemo } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import ProximityHtml from "../ProximityHtml";
+import { rangeFromSeed, seededRandom } from "@/utils/seededRandom";
 
 /* ═══════════════════════════════════════════
    SCENE 5 — JUNGLE HUT / CONTACT US (z = -235 → -295)
@@ -174,26 +175,31 @@ function Mailbox({ position }: { position: [number, number, number] }) {
 
 export default function Scene5JungleHut() {
   const trees = useMemo(() => {
-    const arr = [];
+    const arr: { pos: [number, number, number]; h: number; c: string }[] = [];
     const greens = ["#3a7a22", "#44882a", "#338820", "#4a9430", "#2d6a1a"];
+    let idx = 0;
     for (let z = -240; z > -290; z -= 5) {
+      const seedA = idx * 23.17 + z;
       arr.push({
-        pos: [-8 - Math.random() * 8, 0, z + Math.random() * 3] as [number, number, number],
-        h: 5 + Math.random() * 5,
-        c: greens[Math.floor(Math.random() * greens.length)],
+        pos: [rangeFromSeed(seedA + 1, -16, -8), 0, z + rangeFromSeed(seedA + 2, 0, 3)],
+        h: rangeFromSeed(seedA + 3, 5, 10),
+        c: greens[Math.floor(seededRandom(seedA + 4) * greens.length)],
       });
+      const seedB = seedA + 50;
       arr.push({
-        pos: [8 + Math.random() * 8, 0, z + Math.random() * 3] as [number, number, number],
-        h: 5 + Math.random() * 5,
-        c: greens[Math.floor(Math.random() * greens.length)],
+        pos: [rangeFromSeed(seedB + 1, 8, 16), 0, z + rangeFromSeed(seedB + 2, 0, 3)],
+        h: rangeFromSeed(seedB + 3, 5, 10),
+        c: greens[Math.floor(seededRandom(seedB + 4) * greens.length)],
       });
-      if (Math.random() > 0.5) {
+      const seedC = seedA + 100;
+      if (seededRandom(seedC) > 0.5) {
         arr.push({
-          pos: [(Math.random() - 0.5) * 6, 0, z + Math.random() * 2] as [number, number, number],
-          h: 4 + Math.random() * 3,
-          c: greens[Math.floor(Math.random() * greens.length)],
+          pos: [rangeFromSeed(seedC + 1, -3, 3), 0, z + rangeFromSeed(seedC + 2, 0, 2)],
+          h: rangeFromSeed(seedC + 3, 4, 7),
+          c: greens[Math.floor(seededRandom(seedC + 4) * greens.length)],
         });
       }
+      idx += 1;
     }
     return arr;
   }, []);
