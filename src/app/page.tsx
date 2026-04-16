@@ -1,20 +1,13 @@
-import MainCanvas from "@/components/MainCanvas";
+import ClientConsoleFilters from "@/components/ClientConsoleFilters";
 import HeroOverlay from "@/components/HeroOverlay";
+import MainCanvasLoader from "@/components/MainCanvasLoader";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen stars-bg">
-      {/* 
-        This scroll-container class defines the height of the page to permit scrolling.
-        We defined height: 170vh in globals.css for a faster hero → solar transition.
-        It sits behind the fixed canvas conceptually, or the canvas is fixed on top with pointer-events.
-      */}
-      <div className="scroll-container relative w-full pointer-events-none"></div>
-
-      {/* The 3D Scene */}
-      <MainCanvas />
-
-      {/* Navbar + Scroll Indicator overlay */}
+      <ClientConsoleFilters />
+      <div className="scroll-container relative w-full pointer-events-none" />
+      <MainCanvasLoader />
       <HeroOverlay />
     </main>
   );

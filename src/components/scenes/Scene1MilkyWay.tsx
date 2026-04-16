@@ -117,8 +117,6 @@ function Asteroid({
 }
 
 // Preload the requested models
-useGLTF.preload("/asteroid_1.glb");
-useGLTF.preload("/asteroid_2.glb");
 
 /* ═══════════════════════════════════════════
    GOLDEN RATIO LAYOUT
