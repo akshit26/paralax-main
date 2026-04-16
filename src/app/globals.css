@@ -44,7 +44,8 @@ body {
 
 /* Scroll container */
 .scroll-container {
-  height: 600vh;
+  /* Hero (100vh) + Solar (100vh) */
+  height: 200vh;
 }
 
 /* ═══════════════════════════════════════
