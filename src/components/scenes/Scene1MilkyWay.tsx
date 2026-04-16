@@ -2,9 +2,10 @@
 
 import { useRef, useMemo, useState } from "react";
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
-import { useTexture, Float, useGLTF } from "@react-three/drei";
+import { ThreeEvent, useFrame } from "@react-three/fiber";
+import { Float, useGLTF } from "@react-three/drei";
 import { easing } from "maath";
+import { motion } from "framer-motion";
 import ProximityHtml from "../ProximityHtml";
 
 /* ═══════════════════════════════════════════
@@ -73,13 +74,19 @@ function Asteroid({
       // Emissive glow dampening
       clonedScene.traverse((child) => {
           if (child instanceof THREE.Mesh && child.material && 'emissiveIntensity' in child.material) {
-              easing.damp(child.material as any, "emissiveIntensity", hovered ? 1.5 : 0.1, 0.2, delta);
+              easing.damp(
+                child.material as THREE.MeshStandardMaterial,
+                "emissiveIntensity",
+                hovered ? 1.5 : 0.1,
+                0.2,
+                delta
+              );
           }
       });
     }
   });
 
-  const handleClick = (e: any) => {
+  const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     if (!flicked) {
       setFlicked(true);
@@ -135,7 +142,7 @@ const ASTEROIDS: { pos: [number, number, number]; size: number; model: number }[
 
 export default function Scene1MilkyWay() {
   return (
-    <group>
+    <group position={[0, 0, 0]}>
       {/* Lighting — bright enough to illuminate the imported asteroids */}
       <ambientLight intensity={0.5} />
       <pointLight position={[0, 35, 5]} intensity={6} color="#8b7bea" distance={100} decay={1.5} />
@@ -151,11 +158,16 @@ export default function Scene1MilkyWay() {
       ))}
 
       {/* ── HERO TEXT ── */}
-      <ProximityHtml position={[0, 29.5, -12]} targetZ={-12} range={30} distanceFactor={10}>
-        <div className="hero-container">
+      <ProximityHtml position={[0, 30, -12]} targetPosition={[0, 30, -12]} range={42} distanceFactor={10}>
+        <motion.div
+          className="hero-container"
+          initial={{ opacity: 0, y: 22, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1.1, ease: "easeOut" }}
+        >
           <h1 className="hero-title">ZYFLUS</h1>
           <p className="hero-tagline">OUT OF THIS WORLD</p>
-        </div>
+        </motion.div>
       </ProximityHtml>
     </group>
   );
