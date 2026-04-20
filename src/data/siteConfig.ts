@@ -122,7 +122,7 @@ export const CLIENTS = {
     "Gaming",
   ],
   logos: [
-    { name: "Smaaash", src: "/smaaash.png", sectors: ["FnB", "Arcade"] },
+    { name: "Smaaash", src: "/smaaash.png", sectors: ["F&B", "Arcade"] },
     { name: "Soulflower", src: "/soulflower.png", sectors: ["Cosmetics", "Skincare"] },
     { name: "The Ordinary", src: "/theordinary.png", sectors: ["Cosmetics", "Skincare"] },
     { name: "Bioderma", src: "/bioderma.png", sectors: ["Cosmetics", "Skincare"] },
@@ -182,7 +182,7 @@ export const CASE_STUDIES: {
       metrics: [
         { value: "150K+", label: "Mothers supported" },
         { value: "500K+", label: "Guided workouts" },
-        { value: "4.8★", label: "App rating" },
+        { value: "4.8/5", label: "App rating" },
         { value: "85%", label: "Faster recovery reported" },
       ],
       campaignDetails: [
