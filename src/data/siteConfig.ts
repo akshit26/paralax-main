@@ -6,7 +6,8 @@
 export const SITE_INFO = {
   name: "ZYFLUS",
   tagline: "OUT OF THIS WORLD",
-  description: "A cinematic 3D parallax scroll journey from the Milky Way down to Earth.",
+  description:
+    "ZYFLUS is a web development, performance marketing, influencer marketing, content marketing, and AI automation agency for growth-focused brands.",
   email: "hello@zyflus.com",
   phone: "+91 8708321935",
   address: "Mumbai, India",
@@ -39,7 +40,7 @@ export const SERVICES = {
     {
       id: "ai-automation",
       labelLines: ["AI", "AUTOMATION"],
-      description: "Automation systems that cut repetitive work and keep teams moving faster.",
+      description: "AI automation systems that remove repetitive work, speed up operations, and improve lead flow.",
       modelUrl: "/planet1.glb",
       semiMajor: 10.6,
       semiMinor: 6.4,
@@ -52,7 +53,7 @@ export const SERVICES = {
     {
       id: "web-development",
       labelLines: ["WEB", "DEVELOPMENT"],
-      description: "High-conversion websites built to stay fast, clear, and launch-ready.",
+      description: "SEO-ready, high-conversion websites built to load fast, rank cleanly, and drive action.",
       modelUrl: "/planet2.glb",
       semiMajor: 18.8,
       semiMinor: 10.8,
@@ -65,7 +66,7 @@ export const SERVICES = {
     {
       id: "performance-marketing",
       labelLines: ["PERFORMANCE", "MARKETING"],
-      description: "Paid growth loops with sharper targeting, cleaner creative tests, and better efficiency.",
+      description: "Performance marketing that sharpens targeting, creative testing, and return on ad spend.",
       modelUrl: undefined,
       proceduralVariant: "signal" as const,
       semiMajor: 14.8,
@@ -80,7 +81,7 @@ export const SERVICES = {
     {
       id: "content-marketing",
       labelLines: ["CONTENT", "MARKETING"],
-      description: "Content engines that help brands publish consistently and compound attention.",
+      description: "Content marketing systems that help brands publish consistently, rank organically, and compound attention.",
       modelUrl: "/planet4.glb",
       semiMajor: 21.5,
       semiMinor: 12.4,
@@ -95,9 +96,9 @@ export const SERVICES = {
 
 export const CLIENTS = {
   eyebrow: "Our Stellar Clients",
-  title: "Bold brands trust us to turn attention into real growth.",
+  title: "Brands trust ZYFLUS to turn traffic, content, and campaigns into measurable growth.",
   copy:
-    "Premium websites, sharper campaigns, smarter content systems, and AI-powered automation built to help brands scale with clarity.",
+    "We build SEO-friendly websites, performance campaigns, creator programs, and AI automation systems that help brands grow faster with less operational drag.",
   stats: [
     { value: "16+", label: "Industries" },
     { value: "100+", label: "Clients" },
@@ -129,7 +130,7 @@ export const CLIENTS = {
     { name: "Starstruck", src: "/starstruck.png", sectors: ["Cosmetics", "Skincare"] },
     { name: "Sanfe", src: "/sanfe.png", sectors: ["Cosmetics", "Skincare"] },
   ],
-  note: "Expanded coverage across healthcare, fintech, e-commerce, fashion, beauty, wellness, SaaS, travel, education, gaming, and real estate.",
+  note: "Work across healthcare, fintech, e-commerce, fashion, beauty, wellness, SaaS, travel, education, gaming, and real estate.",
 };
 
 type CaseStudyMetric = {
@@ -168,9 +169,9 @@ export const CASE_STUDIES: {
   items: CaseStudyData[];
 } = {
   eyebrow: "Recent Case Studies",
-  title: "Real campaigns, platforms, and commerce builds with clear performance signal.",
+  title: "Case studies across influencer marketing, product development, and e-commerce growth.",
   copy:
-    "The homepage keeps the snapshot light. Explore the full library for deeper campaign notes, product context, platform outcomes, portfolio proof, and performance insights.",
+    "Explore campaign wins, product outcomes, and commerce builds with clear metrics, execution notes, and proof assets.",
   items: [
     {
       id: "health2mumma",
@@ -751,7 +752,7 @@ export const HOME_CASE_STUDIES = {
   eyebrow: "Recent Case Studies",
   title: "Real creator campaigns with clear reach, engagement, and market signal.",
   copy:
-    "The homepage keeps the snapshot light. Explore the case-study library for deeper campaign notes, creator footprint, performance insights, and proof assets.",
+    "Scan our influencer marketing highlights here, then open Explore for creator mix, campaign strategy, performance metrics, and proof assets.",
   featuredId: "smaaash",
   secondaryId: "forum-malls",
   mobileIds: ["smaaash", "forum-malls", "pee-safe", "sanfe", "hilary-rohda", "lenskart", "new-me"],
@@ -782,9 +783,9 @@ export const CASE_STUDY_FACETS: Record<string, { category: string; industry: str
 
 export const CONTACT = {
   eyebrow: "Contact Us",
-  title: "Bring the next launch to us and we will shape the orbit around it.",
+  title: "Need a website, campaign, or AI workflow that drives growth?",
   copy:
-    "Share the brief, the blockers, or the ambition. We can turn rough direction into a sharper roadmap for design, acquisition, content, and automation.",
+    "Tell us what you need: web development, performance marketing, influencer campaigns, content systems, or AI automation. We will turn the brief into a sharper growth plan.",
   highlights: [
     { label: "Response window", value: "Within 24 hours" },
     { label: "Best for", value: "Growth-focused brands" },
@@ -825,14 +826,14 @@ export const CONTACT = {
   ],
   services: ["Website Design", "Performance Marketing", "Content Systems", "AI Automation", "Creative Direction"],
   submitButton: "Start the conversation",
-  note: "A cleaner intake flow and CRM integration can be wired in once your final stack is locked.",
+  note: "Form actions, CRM routing, and qualification logic can be connected once your final stack is locked.",
 };
 
 export const FOOTER = {
   eyebrow: "Ready To Launch",
-  title: "ZYFLUS builds attention systems that look sharp and pull their weight.",
+  title: "ZYFLUS builds websites, campaigns, and AI systems that earn attention and drive action.",
   copy:
-    "Websites, campaigns, content, and automation designed to feel premium, stay clear, and keep compounding after the first launch.",
+    "From SEO-ready websites to paid media, creator campaigns, and automation, we build growth systems designed to perform after launch.",
   cta: { label: SITE_INFO.email, href: `mailto:${SITE_INFO.email}` },
   navigate: [
     { label: "Home", href: "/" },
@@ -854,7 +855,7 @@ export const FOOTER = {
     { label: "Cookie Policy", href: "/cookie-policy" },
   ],
   bottomLeft: `Copyright ${SITE_INFO.copyrightYear} ZYFLUS. ${SITE_INFO.copyrightTagline}`,
-  bottomRight: "Multi-page launch shell is ready for live content, form actions, and auth wiring next.",
+  bottomRight: "Web development, performance marketing, influencer strategy, content systems, and AI automation.",
 };
 
 // Responsive breakpoints (in pixels)

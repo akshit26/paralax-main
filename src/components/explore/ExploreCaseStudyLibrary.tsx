@@ -54,9 +54,9 @@ export default function ExploreCaseStudyLibrary({ items }: ExploreCaseStudyLibra
         <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
           <div className="space-y-3">
             <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#b7cdf6]">Find What Fits</p>
-            <h3 className="text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">Filter by category, industry, or brand</h3>
+            <h3 className="text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">Filter case studies by category, industry, or brand</h3>
             <p className="max-w-2xl text-sm leading-7 text-white/66">
-              Use the filters below to jump straight to creator campaigns, product builds, or commerce work without scanning the whole library.
+              Jump straight to influencer marketing, product development, Shopify, website, and growth work without scanning the full library.
             </p>
             <label className="block">
               <span className="sr-only">Search case studies</span>

@@ -7,8 +7,16 @@ import { CASE_STUDIES, CLIENTS } from "@/data/siteConfig";
 import { EXPLORE_PAGE } from "@/data/sitePages";
 
 export const metadata: Metadata = {
-  title: "Explore | ZYFLUS",
-  description: "Explore the strategy layers behind ZYFLUS launches, growth systems, and case-study signals.",
+  title: "Explore",
+  description:
+    "Browse ZYFLUS case studies in influencer marketing, product development, Shopify builds, performance marketing, and brand growth.",
+  keywords: [
+    "case studies",
+    "influencer marketing case studies",
+    "Shopify case studies",
+    "product development case studies",
+    "performance marketing case studies",
+  ],
 };
 
 export default function ExplorePage() {
@@ -61,7 +69,7 @@ export default function ExplorePage() {
           <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#b7cdf6]">Case Study Library</p>
           <h2 className="text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">Open the full breakdown behind each campaign</h2>
           <p className="max-w-3xl text-sm leading-7 text-white/64">
-            The homepage keeps each card tight. Explore gives you the longer campaign story, stronger metric context, and a faster way to find the work that matches your brief.
+            The homepage keeps the snapshot tight. Explore gives you the full case study library, stronger metric context, and faster filtering by industry, category, and brand.
           </p>
         </div>
 
@@ -82,7 +90,7 @@ export default function ExplorePage() {
             ))}
           </div>
           <p className="mt-4 text-sm leading-7 text-white/66">
-            The explore page is the strategic bridge between the cinematic home page and the execution-specific service pages.
+            Browse work across beauty, fashion, healthcare, fintech, retail, SaaS, and e-commerce from one searchable library.
           </p>
         </article>
 

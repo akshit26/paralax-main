@@ -5,8 +5,16 @@ import SiteShell from "@/components/site/SiteShell";
 import { BLOG_PAGE, BLOG_POSTS } from "@/data/sitePages";
 
 export const metadata: Metadata = {
-  title: "Blog | ZYFLUS",
-  description: "Read ZYFLUS blog notes on websites, performance marketing, content ops, and growth systems.",
+  title: "Blog",
+  description:
+    "Read ZYFLUS insights on SEO web development, landing pages, performance marketing, content operations, and growth systems.",
+  keywords: [
+    "web development blog",
+    "SEO blog",
+    "performance marketing blog",
+    "landing page conversion",
+    "content operations",
+  ],
 };
 
 export default function BlogPage() {
@@ -27,7 +35,7 @@ export default function BlogPage() {
         <div className="mt-5 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
           <div className="space-y-4">
             <p className="text-sm text-white/56">
-              {featuredPost.category} · {featuredPost.publishedAt} · {featuredPost.readTime}
+              {featuredPost.category} | {featuredPost.publishedAt} | {featuredPost.readTime}
             </p>
             <h2 className="text-3xl font-semibold leading-tight tracking-[-0.04em] text-white sm:text-4xl">
               {featuredPost.title}
@@ -49,7 +57,7 @@ export default function BlogPage() {
         {morePosts.map((post) => (
           <article key={post.slug} className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6">
             <p className="text-sm text-white/56">
-              {post.category} · {post.publishedAt}
+              {post.category} | {post.publishedAt}
             </p>
             <h2 className="mt-4 text-2xl font-semibold leading-tight tracking-[-0.03em] text-white">{post.title}</h2>
             <p className="mt-3 text-sm leading-7 text-white/66">{post.excerpt}</p>
@@ -57,7 +65,7 @@ export default function BlogPage() {
               href={`/blog/${post.slug}`}
               className="mt-5 inline-flex items-center text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#b7cdf6] transition hover:text-white"
             >
-              Open post
+              Open Post
             </Link>
           </article>
         ))}

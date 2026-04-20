@@ -1,9 +1,22 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import { SITE_INFO } from "@/data/siteConfig";
+
 export const metadata: Metadata = {
-  title: "ZYFLUS - Out of This World",
-  description: "A cinematic 3D parallax scroll journey from the Milky Way down to Earth.",
+  title: {
+    default: "ZYFLUS | Web Development, Performance Marketing & AI Automation",
+    template: "%s | ZYFLUS",
+  },
+  description: SITE_INFO.description,
+  keywords: [
+    "web development agency",
+    "performance marketing agency",
+    "influencer marketing agency",
+    "content marketing agency",
+    "AI automation agency",
+    "Shopify development",
+  ],
 };
 
 export default function RootLayout({

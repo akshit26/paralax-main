@@ -5,8 +5,15 @@ import SiteShell from "@/components/site/SiteShell";
 import { CONTACT } from "@/data/siteConfig";
 
 export const metadata: Metadata = {
-  title: "Contact | ZYFLUS",
-  description: "Contact ZYFLUS to discuss websites, campaigns, content systems, and AI automation.",
+  title: "Contact",
+  description:
+    "Contact ZYFLUS for web development, SEO websites, performance marketing, influencer campaigns, content systems, and AI automation.",
+  keywords: [
+    "contact web development agency",
+    "contact performance marketing agency",
+    "influencer marketing contact",
+    "AI automation agency contact",
+  ],
 };
 
 export default function ContactPage() {

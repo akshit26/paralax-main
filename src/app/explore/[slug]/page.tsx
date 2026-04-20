@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import SiteShell from "@/components/site/SiteShell";
-import { CASE_STUDIES, getCaseStudyBySlug } from "@/data/siteConfig";
+import { CASE_STUDIES, getCaseStudyBySlug, getCaseStudyFacet } from "@/data/siteConfig";
 
 export function generateStaticParams() {
   return CASE_STUDIES.items.map((study) => ({ slug: study.id }));
@@ -19,13 +19,20 @@ export async function generateMetadata({
 
   if (!study) {
     return {
-      title: "Case Study Not Found | ZYFLUS",
+      title: "Case Study Not Found",
     };
   }
 
+  const facet = getCaseStudyFacet(slug);
+  const metricSummary = study.metrics
+    .slice(0, 2)
+    .map((metric) => `${metric.value} ${metric.label.toLowerCase()}`)
+    .join(", ");
+
   return {
-    title: `${study.name} Case Study | ZYFLUS`,
-    description: study.summary,
+    title: `${study.name} Case Study`,
+    description: `${study.name} case study by ZYFLUS covering ${facet.industry.toLowerCase()} ${study.service.toLowerCase()} work. Results include ${metricSummary}.`,
+    keywords: [study.name, study.service, facet.category, facet.industry, "case study", "ZYFLUS"],
   };
 }
 

@@ -14,13 +14,14 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 
   if (!post) {
     return {
-      title: "Post Not Found | ZYFLUS",
+      title: "Post Not Found",
     };
   }
 
   return {
-    title: `${post.title} | ZYFLUS`,
+    title: post.title,
     description: post.excerpt,
+    keywords: [post.category, post.title, "ZYFLUS blog", "growth strategy", "conversion"],
   };
 }
 
@@ -36,14 +37,14 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       <article className="grid gap-8">
         <div className="space-y-5">
           <Link href="/blog" className="inline-flex text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#b7cdf6] transition hover:text-white">
-            Back to blog
+            Back to Blog
           </Link>
           <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#b7cdf6]">{post.category}</p>
           <h1 className="max-w-5xl text-4xl font-semibold leading-[0.92] tracking-[-0.05em] text-white sm:text-6xl">
             {post.title}
           </h1>
           <p className="text-sm uppercase tracking-[0.16em] text-white/48">
-            {post.publishedAt} · {post.readTime} · {post.author}
+            {post.publishedAt} | {post.readTime} | {post.author}
           </p>
           <p className="max-w-3xl text-base leading-8 text-white/68">{post.excerpt}</p>
         </div>
@@ -62,9 +63,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             <div className="mt-5 space-y-4">
               {post.takeaways.map((takeaway, index) => (
                 <div key={takeaway} className="rounded-[1.4rem] border border-white/10 bg-black/20 p-4">
-                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/46">
-                    Point {index + 1}
-                  </p>
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/46">Point {index + 1}</p>
                   <p className="mt-2 text-sm leading-7 text-white/74">{takeaway}</p>
                 </div>
               ))}

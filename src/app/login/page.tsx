@@ -5,8 +5,9 @@ import SiteShell from "@/components/site/SiteShell";
 import { LOGIN_PAGE } from "@/data/sitePages";
 
 export const metadata: Metadata = {
-  title: "Login | ZYFLUS",
-  description: "Client portal entry for ZYFLUS reports, roadmaps, and launch notes.",
+  title: "Client Portal Login",
+  description: "Client portal login for ZYFLUS reports, campaigns, roadmaps, approvals, and launch updates.",
+  keywords: ["client portal", "campaign reports", "project updates", "launch notes", "ZYFLUS login"],
 };
 
 export default function LoginPage() {

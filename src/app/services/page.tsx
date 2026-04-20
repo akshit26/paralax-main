@@ -6,8 +6,16 @@ import { SERVICES } from "@/data/siteConfig";
 import { SERVICES_PAGE } from "@/data/sitePages";
 
 export const metadata: Metadata = {
-  title: "Services | ZYFLUS",
-  description: "Explore ZYFLUS services across web experiences, performance marketing, content systems, and AI automation.",
+  title: "Services",
+  description:
+    "Explore ZYFLUS services in web development, SEO-ready websites, performance marketing, content systems, influencer strategy, and AI automation.",
+  keywords: [
+    "web development services",
+    "performance marketing services",
+    "SEO websites",
+    "content marketing systems",
+    "AI automation services",
+  ],
 };
 
 export default function ServicesPage() {

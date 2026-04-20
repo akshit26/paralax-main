@@ -2,60 +2,60 @@ import { CASE_STUDIES, CLIENTS, CONTACT, SERVICES, SITE_INFO } from "./siteConfi
 
 export const EXPLORE_PAGE = {
   eyebrow: "Explore",
-  title: "Move from the homepage snapshot into a cleaner case-study and strategy library.",
+  title: "Case studies, growth strategy, and execution proof for modern brands.",
   copy:
-    "Explore is where the lighter homepage signals open up into fuller case studies, clearer campaign context, and a more usable strategy view across launches, creator programs, and growth systems.",
+    "Explore real work across influencer marketing, product development, Shopify builds, websites, and growth systems. Every case study is structured for faster scanning and stronger decision-making.",
   pillars: [
     {
       title: "Positioning Audit",
-      copy: "We review the offer, the message, and the moments where attention is currently leaking before any design or media push starts.",
+      copy: "We sharpen the offer, message, and conversion friction before traffic or creative spend goes live.",
     },
     {
       title: "Growth Loop Mapping",
-      copy: "Traffic, retention, and conversion are treated as one system so the next sprint compounds instead of resetting every month.",
+      copy: "We connect traffic, retention, and conversion into one growth system so performance compounds.",
     },
     {
       title: "Content Readiness",
-      copy: "We pressure-test whether the brand can keep publishing with clarity once campaigns, launches, and creator asks pile up.",
+      copy: "We stress-test whether the brand can keep publishing clearly once campaigns, launches, and creator asks stack up.",
     },
     {
       title: "Automation Scope",
-      copy: "We isolate the manual drag first, then choose where AI or workflow automation will actually buy the team more speed.",
+      copy: "We find the manual bottlenecks first, then apply AI and automation where they create real speed.",
     },
   ],
   checkpoints: [
-    { step: "01", title: "Map the gap", copy: "Clarify what is blocked, what is underperforming, and what the next launch needs to prove." },
-    { step: "02", title: "Shape the system", copy: "Turn the findings into a sharper website, funnel, content loop, and workflow plan." },
-    { step: "03", title: "Launch with signal", copy: "Ship a cleaner experience with enough structure to keep improving after the first push." },
+    { step: "01", title: "Map the gap", copy: "Pin down what is blocked, what is underperforming, and what the next launch needs to prove." },
+    { step: "02", title: "Shape the system", copy: "Turn the findings into a sharper website, funnel, campaign, and workflow plan." },
+    { step: "03", title: "Launch with signal", copy: "Ship with enough structure to keep learning after the first push." },
   ],
 };
 
 export const SERVICES_PAGE = {
   eyebrow: "Services",
-  title: "Execution lanes built to hold attention, convert cleanly, and scale without chaos.",
+  title: "Web development, performance marketing, content systems, and AI automation for growth-focused brands.",
   copy:
-    "Each service is designed as a working system, not an isolated deliverable. That means better creative alignment, cleaner reporting, and fewer handoff gaps between launch and growth.",
+    "Each service is built as a performance system: clearer messaging, faster pages, stronger reporting, and fewer gaps between launch and scale.",
   process: [
     {
       title: "Strategy Sprint",
-      copy: "We align offer clarity, audience signal, and the growth goal so the work has a clear target before design or media begins.",
+      copy: "We align the offer, audience signal, and growth goal before design, media, or automation begins.",
     },
     {
       title: "Build + Test",
-      copy: "Pages, campaigns, content systems, and workflows are created with testing hooks instead of one-off polished assets.",
+      copy: "We build pages, campaigns, content systems, and workflows with testing built in from day one.",
     },
     {
       title: "Refine + Compound",
-      copy: "We tighten what performs, simplify what drags, and leave the team with a system that can keep learning after launch.",
+      copy: "We tighten what performs, remove drag, and leave the team with a system that keeps improving after launch.",
     },
   ],
 };
 
 export const BLOG_PAGE = {
   eyebrow: "Blog",
-  title: "Field notes on launches, growth systems, and the small decisions that change outcomes.",
+  title: "Web, marketing, SEO, and growth insights for teams that need sharper execution.",
   copy:
-    "This space is for practical thinking: clearer positioning, sharper websites, better campaign structure, and the operational habits that stop brands from rebuilding the same problems every quarter.",
+    "Practical notes on web development, landing pages, SEO, performance marketing, content operations, and growth systems that scale without chaos.",
 };
 
 export const BLOG_POSTS = [
@@ -64,7 +64,7 @@ export const BLOG_POSTS = [
     category: "Web Strategy",
     title: "Launch Pages That Still Convert When Campaign Traffic Gets Messy",
     excerpt:
-      "A strong launch page is not just attractive. It needs to keep clarity when paid traffic, creator mentions, and returning users all arrive with different intent.",
+      "A launch page needs more than design polish. It needs clear messaging, stronger SEO structure, and conversion logic that survives messy paid and creator traffic.",
     publishedAt: "April 17, 2026",
     readTime: "6 min read",
     author: "ZYFLUS Studio",
@@ -84,7 +84,7 @@ export const BLOG_POSTS = [
     category: "Performance Marketing",
     title: "Paid Media Gets Better When the Landing System Is Cleaner",
     excerpt:
-      "Most ad accounts are carrying problems that were created on the landing page. Better creative helps, but cleaner page logic often unlocks efficiency faster.",
+      "Paid media performance often breaks on the landing page. Cleaner conversion paths usually unlock lower CAC faster than endless ad tweaks.",
     publishedAt: "April 10, 2026",
     readTime: "5 min read",
     author: "ZYFLUS Studio",
@@ -104,7 +104,7 @@ export const BLOG_POSTS = [
     category: "Content Ops",
     title: "Content Ops Need Systems, Not Heroics",
     excerpt:
-      "Publishing consistency is usually an operations problem. Teams do not need more panic energy. They need fewer manual steps and clearer reuse paths.",
+      "Content consistency is an operations problem. Better systems, templates, and automation beat last-minute heroics every time.",
     publishedAt: "April 3, 2026",
     readTime: "4 min read",
     author: "ZYFLUS Studio",
@@ -123,9 +123,9 @@ export const BLOG_POSTS = [
 
 export const LOGIN_PAGE = {
   eyebrow: "Login",
-  title: "Client access for reports, roadmaps, and launch notes.",
+  title: "Client portal for reports, campaigns, roadmaps, and launch updates.",
   copy:
-    "Use this page as the entry point for your future client portal. The UI is ready for sign-in flows, but the live authentication layer still needs to be connected to your chosen stack.",
+    "Use this page as the future login for client reporting, project updates, content approvals, and launch documents. Authentication can be connected to your final stack when ready.",
   features: [
     "Campaign snapshots and reporting dashboards",
     "Live task boards and sprint priorities",
