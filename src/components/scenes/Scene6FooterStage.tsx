@@ -4,7 +4,7 @@ import { Float } from "@react-three/drei";
 import { useMemo } from "react";
 import * as THREE from "three";
 
-import { SCENE_CENTERS } from "../experienceConfig";
+import { SCENE_CENTERS, type ViewportMode } from "../experienceConfig";
 
 const FOOTER_CENTER = SCENE_CENTERS.footer;
 
@@ -91,20 +91,26 @@ function SparkCluster() {
   );
 }
 
-export default function Scene6FooterStage() {
+export default function Scene6FooterStage({ viewport }: { viewport: ViewportMode }) {
+  const sceneScale = viewport === "mobile" ? 0.76 : viewport === "tablet" ? 0.92 : 1;
+  const sceneOffsetY = viewport === "mobile" ? 1.6 : viewport === "tablet" ? 0.45 : 0;
+  const arcScale = viewport === "mobile" ? 0.88 : 1;
+
   return (
     <group position={FOOTER_CENTER}>
-      <ambientLight intensity={0.14} color="#eef4ff" />
-      <pointLight position={[-8, 3, 4]} intensity={0.7} distance={18} decay={2} color="#ffbd69" />
-      <pointLight position={[8, 4, 4]} intensity={0.7} distance={18} decay={2} color="#82b4ff" />
+      <group position={[0, sceneOffsetY, 0]} scale={sceneScale}>
+        <ambientLight intensity={0.14} color="#eef4ff" />
+        <pointLight position={[-8, 3, 4]} intensity={0.7} distance={18} decay={2} color="#ffbd69" />
+        <pointLight position={[8, 4, 4]} intensity={0.7} distance={18} decay={2} color="#82b4ff" />
 
-      <FooterGlow position={[0, -4.4, -7]} scale={[12, 4.8, 1]} color="#ffb862" opacity={0.016} />
-      <FooterGlow position={[0, -4.8, -7.2]} scale={[15.5, 6.4, 1]} color="#7fb2ff" opacity={0.012} />
+        <FooterGlow position={[0, -4.4, -7]} scale={[12, 4.8, 1]} color="#ffb862" opacity={0.016} />
+        <FooterGlow position={[0, -4.8, -7.2]} scale={[15.5, 6.4, 1]} color="#7fb2ff" opacity={0.012} />
 
-      <HorizonArc radiusX={20} radiusY={4.8} position={[0, -4.1, -3.8]} opacity={0.16} />
-      <HorizonArc radiusX={16.2} radiusY={3.4} position={[0, -4.35, -3.95]} opacity={0.1} />
-      <HorizonArc radiusX={12.8} radiusY={2.5} position={[0, -4.55, -4.1]} opacity={0.07} />
-      <SparkCluster />
+        <HorizonArc radiusX={20 * arcScale} radiusY={4.8 * arcScale} position={[0, -4.1, -3.8]} opacity={0.16} />
+        <HorizonArc radiusX={16.2 * arcScale} radiusY={3.4 * arcScale} position={[0, -4.35, -3.95]} opacity={0.1} />
+        <HorizonArc radiusX={12.8 * arcScale} radiusY={2.5 * arcScale} position={[0, -4.55, -4.1]} opacity={0.07} />
+        <SparkCluster />
+      </group>
     </group>
   );
 }

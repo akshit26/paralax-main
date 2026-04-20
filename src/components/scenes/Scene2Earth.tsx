@@ -6,73 +6,12 @@ import { useFrame } from "@react-three/fiber";
 import { Float, useGLTF } from "@react-three/drei";
 import { motion } from "framer-motion";
 import ProximityHtml from "../ProximityHtml";
-import { SCENE_CENTERS } from "../experienceConfig";
-
-type OrbitConfig = {
-  modelUrl?: string;
-  labelLines: string[];
-  semiMajor: number;
-  semiMinor: number;
-  phase: number;
-  orbitSpeed: number;
-  scale: number;
-  zOffset: number;
-  labelWidth: number;
-  hasRing?: boolean;
-  proceduralVariant?: "signal";
-};
+import { SCENE_CENTERS, type ViewportMode } from "../experienceConfig";
+import { SERVICES } from "@/data/siteConfig";
 
 const SOLAR_CENTER = SCENE_CENTERS.services;
 const ORBIT_COLOR = "#d9dfeb";
 const ORBIT_DEPTH = -1.8;
-
-const ORBITS: OrbitConfig[] = [
-  {
-    modelUrl: "/planet1.glb",
-    labelLines: ["AI", "AUTOMATION"],
-    semiMajor: 10.6,
-    semiMinor: 6.4,
-    phase: 2.15,
-    orbitSpeed: 0.016,
-    scale: 2.1,
-    zOffset: 0.7,
-    labelWidth: 220,
-  },
-  {
-    modelUrl: "/planet2.glb",
-    labelLines: ["WEB", "DEVELOPMENT"],
-    semiMajor: 18.8,
-    semiMinor: 10.8,
-    phase: 3.92,
-    orbitSpeed: 0.01,
-    scale: 2.35,
-    zOffset: 1.1,
-    labelWidth: 240,
-  },
-  {
-    labelLines: ["PERFORMANCE", "MARKETING"],
-    semiMajor: 14.8,
-    semiMinor: 8.3,
-    phase: 5.24,
-    orbitSpeed: 0.013,
-    scale: 2.15,
-    zOffset: 1.05,
-    labelWidth: 250,
-    hasRing: true,
-    proceduralVariant: "signal",
-  },
-  {
-    modelUrl: "/planet4.glb",
-    labelLines: ["CONTENT", "MARKETING"],
-    semiMajor: 21.5,
-    semiMinor: 12.4,
-    phase: 0.46,
-    orbitSpeed: 0.008,
-    scale: 2.95,
-    zOffset: 1.35,
-    labelWidth: 260,
-  },
-];
 
 function Sun() {
   const { scene } = useGLTF("/sun.glb");
@@ -249,19 +188,25 @@ function OrbitPlanet({
   zOffset,
   labelWidth,
   hasRing = false,
+  viewport,
 }: OrbitConfig) {
   const orbitAngle = useRef(phase);
   const orbitPositionRef = useRef<THREE.Group>(null);
   const planetSpinRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
+  const orbitScale = viewport === "mobile" ? 0.62 : viewport === "tablet" ? 0.88 : 1;
+  const planetScale = viewport === "mobile" ? 0.82 : orbitScale;
+  const orbitLabelWidth = viewport === "mobile" ? Math.min(labelWidth, 180) : viewport === "tablet" ? Math.min(labelWidth, 210) : labelWidth;
+  const orbitDistanceFactor = viewport === "mobile" ? 5.2 : viewport === "tablet" ? 5.8 : 6.6;
+  const showLabels = viewport !== "mobile";
 
   useFrame((_state, delta) => {
     orbitAngle.current += delta * orbitSpeed;
 
     if (orbitPositionRef.current) {
       orbitPositionRef.current.position.set(
-        semiMajor * Math.cos(orbitAngle.current),
-        semiMinor * Math.sin(orbitAngle.current),
+        semiMajor * orbitScale * Math.cos(orbitAngle.current),
+        semiMinor * orbitScale * Math.sin(orbitAngle.current),
         zOffset
       );
     }
@@ -273,11 +218,11 @@ function OrbitPlanet({
 
   return (
     <group>
-      <OrbitPath semiMajor={semiMajor} semiMinor={semiMinor} hovered={hovered} />
+      <OrbitPath semiMajor={semiMajor * orbitScale} semiMinor={semiMinor * orbitScale} hovered={hovered} />
 
       <Float speed={0.6} floatIntensity={0.12} rotationIntensity={0.02}>
         <group ref={orbitPositionRef}>
-          <group scale={hovered ? scale * 1.045 : scale}>
+          <group scale={hovered ? scale * planetScale * 1.045 : scale * planetScale}>
             <group
               ref={planetSpinRef}
               onPointerOver={(event) => {
@@ -293,29 +238,31 @@ function OrbitPlanet({
               {hasRing ? <PerformanceRing /> : null}
 
               <PlanetVisual modelUrl={modelUrl} proceduralVariant={proceduralVariant} />
-              <pointLight intensity={hovered ? 0.85 : 0.5} color="#f7fbff" distance={5.5} decay={2.25} />
+              <pointLight intensity={hovered ? 0.85 : viewport === "mobile" ? 0.38 : 0.5} color="#f7fbff" distance={5.5} decay={2.25} />
             </group>
 
-            <ProximityHtml
-              targetPosition={SOLAR_CENTER}
-              position={[0, 0, 1.5]}
-              range={105}
-              distanceFactor={6.6}
-              sprite
-            >
-              <motion.div
-                className="planet-title-overlay"
-                style={{ width: `${labelWidth}px` }}
-                animate={{ opacity: 1, scale: hovered ? 1.03 : 1 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
+            {showLabels ? (
+              <ProximityHtml
+                targetPosition={SOLAR_CENTER}
+                position={[0, 0, 1.5]}
+                range={105}
+                distanceFactor={orbitDistanceFactor}
+                sprite
               >
-                {labelLines.map((line) => (
-                  <span key={line} className="planet-title-line">
-                    {line}
-                  </span>
-                ))}
-              </motion.div>
-            </ProximityHtml>
+                <motion.div
+                  className="planet-title-overlay"
+                  style={{ width: `${orbitLabelWidth}px` }}
+                  animate={{ opacity: 1, scale: hovered ? 1.03 : 1 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                >
+                  {labelLines.map((line) => (
+                    <span key={line} className="planet-title-line">
+                      {line}
+                    </span>
+                  ))}
+                </motion.div>
+              </ProximityHtml>
+            ) : null}
           </group>
         </group>
       </Float>
@@ -323,13 +270,20 @@ function OrbitPlanet({
   );
 }
 
-export default function Scene2Earth() {
+type OrbitConfig = (typeof SERVICES.planets)[number] & { viewport: ViewportMode };
+
+export default function Scene2Earth({ viewport }: { viewport: ViewportMode }) {
+  const stageOffset: [number, number, number] =
+    viewport === "mobile" ? [0.2, 2.3, 0] : viewport === "tablet" ? [0.1, 1, 0] : [0, 0, 0];
+
   return (
     <group position={SOLAR_CENTER}>
-      <Sun />
-      {ORBITS.map((orbit, index) => (
-        <OrbitPlanet key={orbit.modelUrl ?? orbit.labelLines.join("-") ?? String(index)} {...orbit} />
-      ))}
+      <group position={stageOffset}>
+        <Sun />
+        {SERVICES.planets.map((orbit, index) => (
+          <OrbitPlanet key={orbit.id ?? orbit.labelLines.join("-") ?? String(index)} {...orbit} viewport={viewport} />
+        ))}
+      </group>
     </group>
   );
 }

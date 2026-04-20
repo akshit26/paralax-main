@@ -1,2 +1,3 @@
-2026/04/16-23:28:18.212 7244 Creating DB C:\Users\Asus\Downloads\paralax\.cdp-profile-case\Default\Site Characteristics Database since it was missing.
-2026/04/16-23:28:18.324 7244 Reusing MANIFEST C:\Users\Asus\Downloads\paralax\.cdp-profile-case\Default\Site Characteristics Database/MANIFEST-000001
+2026/04/17-00:21:06.855 59c0 Reusing MANIFEST C:\Users\Asus\Downloads\paralax\.cdp-profile-case\Default\Site Characteristics Database/MANIFEST-000001
+2026/04/17-00:21:06.856 59c0 Recovering log #3
+2026/04/17-00:21:06.857 59c0 Reusing old log C:\Users\Asus\Downloads\paralax\.cdp-profile-case\Default\Site Characteristics Database/000003.log 

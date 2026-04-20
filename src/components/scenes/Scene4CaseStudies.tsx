@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
-import { SCENE_CENTERS } from "../experienceConfig";
+import { SCENE_CENTERS, type ViewportMode } from "../experienceConfig";
 
 const CASE_STUDIES_CENTER = SCENE_CENTERS.caseStudies;
 
@@ -151,24 +151,29 @@ function TelemetryArc({
   );
 }
 
-export default function Scene4CaseStudies() {
+export default function Scene4CaseStudies({ viewport }: { viewport: ViewportMode }) {
+  const sceneScale = viewport === "mobile" ? 0.76 : viewport === "tablet" ? 0.88 : 1;
+  const sceneOffsetX = viewport === "mobile" ? 2.8 : viewport === "tablet" ? 1.2 : 0;
+
   return (
     <group position={CASE_STUDIES_CENTER}>
-      <ambientLight intensity={0.2} color="#f4f8ff" />
-      <pointLight position={[-14, 2.6, 5]} intensity={1.3} distance={26} decay={2} color="#ffbd69" />
-      <pointLight position={[15, 4.2, 3]} intensity={1.1} distance={28} decay={2} color="#83b8ff" />
+      <group position={[sceneOffsetX, 0, 0]} scale={sceneScale}>
+        <ambientLight intensity={0.2} color="#f4f8ff" />
+        <pointLight position={[-14, 2.6, 5]} intensity={1.3} distance={26} decay={2} color="#ffbd69" />
+        <pointLight position={[15, 4.2, 3]} intensity={1.1} distance={28} decay={2} color="#83b8ff" />
 
-      <GlowDisc position={[-10.8, 0.6, -5.2]} color="#ffb347" scale={[5.8, 5.8, 1]} opacity={0.032} />
-      <GlowDisc position={[16.4, 1.8, -5.8]} color="#82b2ff" scale={[6.4, 6.4, 1]} opacity={0.024} />
+        <GlowDisc position={[-10.8, 0.6, -5.2]} color="#ffb347" scale={[5.8, 5.8, 1]} opacity={0.032} />
+        <GlowDisc position={[16.4, 1.8, -5.8]} color="#82b2ff" scale={[6.4, 6.4, 1]} opacity={0.024} />
 
-      <group position={[7.8, 0.8, -4.8]}>
-        <TelemetryArc radiusX={9.8} radiusY={4.4} rotation={[0.1, 0.08, 0]} opacity={0.16} />
-        <TelemetryArc radiusX={8} radiusY={3.2} rotation={[-0.1, -0.04, 0.06]} opacity={0.11} />
+        <group position={[7.8, 0.8, -4.8]}>
+          <TelemetryArc radiusX={9.8} radiusY={4.4} rotation={[0.1, 0.08, 0]} opacity={0.16} />
+          <TelemetryArc radiusX={8} radiusY={3.2} rotation={[-0.1, -0.04, 0.06]} opacity={0.11} />
+        </group>
+
+        <DataFrame position={[13.8, 5.4, -3.8]} rotation={[-0.12, -0.4, -0.12]} accent="#8bb8ff" floatOffset={0.5} />
+        <DataFrame position={[18.8, -0.6, -4.1]} rotation={[0.08, -0.48, 0.14]} accent="#ffbd69" floatOffset={1.2} />
+        <DataFrame position={[11.2, -5.1, -4.6]} rotation={[0.02, -0.3, -0.08]} accent="#a5cbff" floatOffset={2.1} />
       </group>
-
-      <DataFrame position={[13.8, 5.4, -3.8]} rotation={[-0.12, -0.4, -0.12]} accent="#8bb8ff" floatOffset={0.5} />
-      <DataFrame position={[18.8, -0.6, -4.1]} rotation={[0.08, -0.48, 0.14]} accent="#ffbd69" floatOffset={1.2} />
-      <DataFrame position={[11.2, -5.1, -4.6]} rotation={[0.02, -0.3, -0.08]} accent="#a5cbff" floatOffset={2.1} />
     </group>
   );
 }

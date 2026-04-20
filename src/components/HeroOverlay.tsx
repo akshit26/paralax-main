@@ -1,54 +1,79 @@
 "use client";
 
+import Link from "next/link";
 import type { FormEvent, ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-import { EXPERIENCE_STAGE_EVENT, stageFromProgress, type SceneStage } from "./experienceConfig";
+import {
+  EXPERIENCE_STAGE_COUNT,
+  EXPERIENCE_STAGE_EVENT,
+  progressFromStage,
+  stageFromProgress,
+  type SceneStage,
+  type ViewportMode,
+} from "./experienceConfig";
+import { CASE_STUDIES, CLIENTS, CONTACT, FOOTER, HERO, HOME_CASE_STUDIES, SERVICES, getCaseStudyBySlug } from "@/data/siteConfig";
 
-const CLIENT_NAMES = ["NovaGrid", "LumaForge", "OrbitIQ", "BluePeak", "SignalNest", "Northstar Labs"];
-const CLIENT_STATS = [
-  { value: "10+", label: "Industries" },
-  { value: "100+", label: "Clients" },
-  { value: "250+", label: "Campaigns" },
-];
-const INDUSTRY_TAGS = ["D2C", "SaaS", "Healthcare", "Education", "Hospitality", "Creators"];
+type ContactField = (typeof CONTACT.formFields)[number];
+type CaseStudy = (typeof CASE_STUDIES.items)[number];
 
-const CASE_STUDIES = [
-  {
-    name: "NovaGrid",
-    service: "Launch System",
-    summary: "We rebuilt the funnel, clarified the offer, and gave paid traffic a sharper landing experience.",
-    metricA: "+212%",
-    metricALabel: "Qualified leads",
-    metricB: "-38%",
-    metricBLabel: "Cost per acquisition",
-  },
-  {
-    name: "OrbitIQ",
-    service: "Performance Media",
-    summary: "Creative testing, tighter audience loops, and cleaner attribution pushed growth without burning efficiency.",
-    metricA: "4.6x",
-    metricALabel: "Average ROAS",
-    metricB: "+61%",
-    metricBLabel: "Repeat revenue",
-  },
-  {
-    name: "SignalNest",
-    service: "Content + Automation",
-    summary: "We streamlined content ops and layered AI workflows so the team shipped faster with less manual drag.",
-    metricA: "3x",
-    metricALabel: "Output velocity",
-    metricB: "+47%",
-    metricBLabel: "Pipeline lift",
-  },
-];
+function scrollToExperienceStage(stage: SceneStage, behavior: ScrollBehavior = "smooth") {
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  if (maxScroll <= 0) return;
 
-const CONTACT_SERVICES = ["Website Design", "Performance Marketing", "Content Systems", "AI Automation", "Creative Direction"];
+  window.scrollTo({
+    top: maxScroll * progressFromStage(stage),
+    behavior,
+  });
+}
 
-const FOOTER_NAV = ["Home", "Explore", "Services", "Case Studies", "Contact"];
-const FOOTER_SERVICES = ["Web Experiences", "Paid Media", "Influencer Strategy", "Content Engines", "Automation Systems"];
-const FOOTER_SOCIALS = ["Instagram", "LinkedIn", "YouTube", "X"];
+function ContactFieldControl({
+  field,
+  compact,
+}: {
+  field: ContactField;
+  compact: boolean;
+}) {
+  if (field.type === "select") {
+    return (
+      <label className="contact-form__field">
+        <span>{field.label}</span>
+        <select defaultValue="" required={Boolean(field.required)} name={field.name}>
+          <option value="" disabled>
+            {field.placeholder}
+          </option>
+          {field.options?.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </label>
+    );
+  }
+
+  if (field.type === "textarea") {
+    return (
+      <label className="contact-form__field contact-form__field--full">
+        <span>{field.label}</span>
+        <textarea
+          name={field.name}
+          rows={compact ? Math.min(field.rows ?? 5, 4) : field.rows ?? 5}
+          placeholder={field.placeholder}
+          required={Boolean(field.required)}
+        />
+      </label>
+    );
+  }
+
+  return (
+    <label className="contact-form__field">
+      <span>{field.label}</span>
+      <input name={field.name} type={field.type} placeholder={field.placeholder} required={Boolean(field.required)} />
+    </label>
+  );
+}
 
 function StageSection({
   stageKey,
@@ -75,7 +100,38 @@ function StageSection({
   );
 }
 
+function CaseStudyExploreLink({
+  study,
+  label = "Open in Explore",
+}: {
+  study: CaseStudy;
+  label?: string;
+}) {
+  return (
+    <Link
+      className="study-card__action"
+      href={`/explore/${study.id}`}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function getCuratedHomeStudies() {
+  const curatedStudies = HOME_CASE_STUDIES.mobileIds
+    .map((id) => getCaseStudyBySlug(id))
+    .filter((study): study is CaseStudy => Boolean(study));
+
+  if (curatedStudies.length > 0) {
+    return curatedStudies;
+  }
+
+  return CASE_STUDIES.items;
+}
+
 function ClientsStage({ reduceMotion }: { reduceMotion: boolean }) {
+  const clientNames = CLIENTS.logos.map((client) => client.name);
+
   return (
     <StageSection stageKey="clients-stage" className="clients-stage" reduceMotion={reduceMotion}>
       <motion.div
@@ -92,11 +148,9 @@ function ClientsStage({ reduceMotion }: { reduceMotion: boolean }) {
           animate={{ opacity: 1, y: 0 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 0.28, delay: 0.08 }}
         >
-          <p className="clients-stage__eyebrow">Our Stellar Clients</p>
-          <h2 className="clients-stage__title">Bold brands trust us to turn attention into real growth.</h2>
-          <p className="clients-stage__copy">
-            Premium websites, sharper campaigns, smarter content systems, and AI-powered automation built to help brands scale with clarity.
-          </p>
+          <p className="clients-stage__eyebrow">{CLIENTS.eyebrow}</p>
+          <h2 className="clients-stage__title">{CLIENTS.title}</h2>
+          <p className="clients-stage__copy">{CLIENTS.copy}</p>
         </motion.div>
 
         <motion.div
@@ -106,7 +160,7 @@ function ClientsStage({ reduceMotion }: { reduceMotion: boolean }) {
           transition={reduceMotion ? { duration: 0 } : { duration: 0.3, delay: 0.12 }}
         >
           <div className="clients-stage__stats">
-            {CLIENT_STATS.map((stat) => (
+            {CLIENTS.stats.map((stat) => (
               <div key={stat.label} className="clients-stage__stat">
                 <span className="clients-stage__stat-value">{stat.value}</span>
                 <span className="clients-stage__stat-label">{stat.label}</span>
@@ -115,7 +169,7 @@ function ClientsStage({ reduceMotion }: { reduceMotion: boolean }) {
           </div>
 
           <div className="clients-stage__chips">
-            {INDUSTRY_TAGS.map((tag) => (
+            {CLIENTS.industries.map((tag) => (
               <span key={tag} className="clients-stage__chip">
                 {tag}
               </span>
@@ -123,22 +177,81 @@ function ClientsStage({ reduceMotion }: { reduceMotion: boolean }) {
           </div>
 
           <div className="clients-stage__names">
-            {CLIENT_NAMES.map((client) => (
+            {clientNames.map((client) => (
               <span key={client} className="clients-stage__name">
                 {client}
               </span>
             ))}
           </div>
 
-          <p className="clients-stage__note">Client logos can replace these placeholders in the next pass.</p>
+          <p className="clients-stage__note">{CLIENTS.note}</p>
         </motion.div>
       </motion.div>
     </StageSection>
   );
 }
 
-function CaseStudiesStage({ reduceMotion }: { reduceMotion: boolean }) {
-  const [featuredStudy, secondaryStudyA, secondaryStudyB] = CASE_STUDIES;
+function ServicesStage({
+  reduceMotion,
+  viewport,
+}: {
+  reduceMotion: boolean;
+  viewport: ViewportMode;
+}) {
+  if (viewport !== "mobile") {
+    return null;
+  }
+
+  return (
+    <StageSection stageKey="services-stage" className="services-stage" reduceMotion={reduceMotion}>
+      <motion.div
+        className="services-stage__shell"
+        initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={reduceMotion ? { duration: 0 } : { duration: 0.28, delay: 0.04 }}
+      >
+        <div className="services-stage__intro">
+          <p className="services-stage__eyebrow">Core Services</p>
+          <h2 className="services-stage__title">Pick the orbit that matches where you want growth to go next.</h2>
+          <p className="services-stage__copy">
+            Smaller screens get the quick version here so the experience stays easy to scan.
+          </p>
+        </div>
+
+        <div className="services-stage__grid">
+          {SERVICES.planets.map((service, index) => (
+            <article key={service.id} className="services-stage__card">
+              <span className="services-stage__index">{String(index + 1).padStart(2, "0")}</span>
+              <h3 className="services-stage__card-title">{service.labelLines.join(" ")}</h3>
+              <p className="services-stage__card-copy">{service.description}</p>
+            </article>
+          ))}
+        </div>
+      </motion.div>
+    </StageSection>
+  );
+}
+
+function CaseStudiesStage({
+  reduceMotion,
+  viewport,
+}: {
+  reduceMotion: boolean;
+  viewport: ViewportMode;
+}) {
+  const [mobileStudyIndex, setMobileStudyIndex] = useState(0);
+  const isMobile = viewport === "mobile";
+  const homeStudies = getCuratedHomeStudies();
+  const featuredStudy = getCaseStudyBySlug(HOME_CASE_STUDIES.featuredId) ?? homeStudies[0];
+  const secondaryStudy = getCaseStudyBySlug(HOME_CASE_STUDIES.secondaryId) ?? homeStudies[1] ?? homeStudies[0];
+  const mobileStudy = homeStudies[mobileStudyIndex] ?? featuredStudy;
+  const featuredMetric = featuredStudy.metrics[0];
+  const secondaryMetrics = secondaryStudy.metrics.slice(0, 2);
+
+  const setVisibleMobileStudy = (nextIndex: number) => {
+    const normalizedIndex = (nextIndex + homeStudies.length) % homeStudies.length;
+    setMobileStudyIndex(normalizedIndex);
+  };
 
   return (
     <StageSection stageKey="case-studies-stage" className="case-studies-stage" reduceMotion={reduceMotion}>
@@ -149,66 +262,143 @@ function CaseStudiesStage({ reduceMotion }: { reduceMotion: boolean }) {
         transition={reduceMotion ? { duration: 0 } : { duration: 0.28, delay: 0.04 }}
       >
         <div className="case-studies-stage__intro">
-          <p className="case-studies-stage__eyebrow">Selected Case Studies</p>
-          <h2 className="case-studies-stage__title">Work that made traffic sharper, conversion stronger, and growth easier to scale.</h2>
-          <p className="case-studies-stage__copy">
-            Each engagement starts with clearer positioning and ends with measurable lift. These are strong placeholder stories for now, ready for your
-            real brand wins in the next pass.
-          </p>
-
-          <div className="case-studies-stage__summary">
-            <span className="case-studies-stage__summary-pill">Strategy-led builds</span>
-            <span className="case-studies-stage__summary-pill">Creative that converts</span>
-            <span className="case-studies-stage__summary-pill">Reporting that stays readable</span>
+          <div className="case-studies-stage__intro-main">
+            <p className="case-studies-stage__eyebrow">{HOME_CASE_STUDIES.eyebrow}</p>
+            <h2 className="case-studies-stage__title">{HOME_CASE_STUDIES.title}</h2>
           </div>
+          <p className="case-studies-stage__copy">{HOME_CASE_STUDIES.copy}</p>
         </div>
 
-        <div className="case-studies-stage__grid">
-          <article className="study-card study-card--featured">
-            <div className="study-card__topline">
-              <span className="study-card__service">{featuredStudy.service}</span>
-              <span className="study-card__brand">{featuredStudy.name}</span>
-            </div>
-            <h3 className="study-card__title">From scattered traffic to a funnel people actually moved through.</h3>
-            <p className="study-card__copy">{featuredStudy.summary}</p>
-            <div className="study-card__metrics">
-              <div className="study-card__metric">
-                <span className="study-card__metric-value">{featuredStudy.metricA}</span>
-                <span className="study-card__metric-label">{featuredStudy.metricALabel}</span>
-              </div>
-              <div className="study-card__metric">
-                <span className="study-card__metric-value">{featuredStudy.metricB}</span>
-                <span className="study-card__metric-label">{featuredStudy.metricBLabel}</span>
-              </div>
-            </div>
-          </article>
-
-          {[secondaryStudyA, secondaryStudyB].map((study) => (
-            <article key={study.name} className="study-card study-card--compact">
-              <div className="study-card__topline">
-                <span className="study-card__service">{study.service}</span>
-                <span className="study-card__brand">{study.name}</span>
-              </div>
-              <p className="study-card__copy">{study.summary}</p>
-              <div className="study-card__compact-metrics">
-                <div>
-                  <strong>{study.metricA}</strong>
-                  <span>{study.metricALabel}</span>
+        {!isMobile ? (
+          <div className="case-studies-stage__showcase">
+            <article className="study-card study-card--featured">
+              <div className="study-card__visual study-card__visual--featured" aria-hidden="true">
+                <div className="study-card__signal-bars">
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
                 </div>
-                <div>
-                  <strong>{study.metricB}</strong>
-                  <span>{study.metricBLabel}</span>
+                <div className="study-card__signal-arc study-card__signal-arc--one" />
+                <div className="study-card__signal-arc study-card__signal-arc--two" />
+              </div>
+              <div className="study-card__body study-card__body--featured">
+                <h3 className="study-card__headline">{featuredStudy.headline}</h3>
+              </div>
+              <div className="study-card__footer study-card__footer--featured">
+                <div className="study-card__spotlight-metric">
+                  <span className="study-card__spotlight-value">{featuredMetric?.value ?? "-"}</span>
+                  <span className="study-card__spotlight-label">{featuredMetric?.label ?? "Performance signal"}</span>
                 </div>
+                <CaseStudyExploreLink study={featuredStudy} label="Explore case studies" />
               </div>
             </article>
-          ))}
-        </div>
+
+            <article className="study-card study-card--secondary">
+              <div className="study-card__visual study-card__visual--secondary" aria-hidden="true">
+                <div className="study-card__signal-bars">
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <div className="study-card__signal-arc study-card__signal-arc--three" />
+              </div>
+
+              <div className="study-card__body study-card__body--secondary">
+                <div className="study-card__topline study-card__topline--secondary">
+                  <span className="study-card__service">{secondaryStudy.service}</span>
+                  <span className="study-card__brand">{secondaryStudy.name}</span>
+                </div>
+                <h3 className="study-card__headline study-card__headline--secondary">{secondaryStudy.headline}</h3>
+              </div>
+
+              <div className="study-card__metric-strip">
+                {secondaryMetrics.map((metric) => (
+                  <div key={metric.label} className="study-card__metric-tile">
+                    <span className="study-card__metric-value">{metric.value}</span>
+                    <span className="study-card__metric-label">{metric.label}</span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </div>
+        ) : (
+          <div className="case-studies-stage__mobile-shell">
+            <div className="case-studies-stage__mobile-header">
+              <div className="case-studies-stage__mobile-meta">
+                <span className="case-studies-stage__mobile-brand">{mobileStudy.name}</span>
+                <span className="case-studies-stage__mobile-count">
+                  {String(mobileStudyIndex + 1).padStart(2, "0")} / {String(homeStudies.length).padStart(2, "0")}
+                </span>
+              </div>
+            </div>
+
+            <div className="case-studies-stage__mobile-tabs">
+              {homeStudies.map((study, index) => (
+                <button
+                  key={study.id}
+                  type="button"
+                  className={`case-studies-stage__mobile-tab ${index === mobileStudyIndex ? "case-studies-stage__mobile-tab--active" : ""}`}
+                  onClick={() => setVisibleMobileStudy(index)}
+                >
+                  {study.name}
+                </button>
+              ))}
+            </div>
+
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.article
+                key={mobileStudy.id}
+                className="study-card study-card--mobile"
+                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 14 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -14 }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
+              >
+                <div className="study-card__visual study-card__visual--mobile" aria-hidden="true">
+                  <div className="study-card__signal-bars">
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <div className="study-card__signal-arc study-card__signal-arc--three" />
+                </div>
+                <div className="study-card__topline study-card__topline--secondary">
+                  <span className="study-card__service">{mobileStudy.service}</span>
+                  <span className="study-card__brand">{mobileStudy.name}</span>
+                </div>
+                <h3 className="study-card__headline study-card__headline--mobile">{mobileStudy.headline}</h3>
+                <div className="study-card__metric-strip">
+                  {mobileStudy.metrics.slice(0, 2).map((metric) => (
+                    <div key={metric.label} className="study-card__metric-tile">
+                      <span className="study-card__metric-value">{metric.value}</span>
+                      <span className="study-card__metric-label">{metric.label}</span>
+                    </div>
+                  ))}
+                </div>
+                <CaseStudyExploreLink study={mobileStudy} label="Explore case studies" />
+              </motion.article>
+            </AnimatePresence>
+          </div>
+        )}
       </motion.div>
     </StageSection>
   );
 }
 
-function ContactStage({ reduceMotion }: { reduceMotion: boolean }) {
+function ContactStage({
+  reduceMotion,
+  viewport,
+}: {
+  reduceMotion: boolean;
+  viewport: ViewportMode;
+}) {
+  const compactForm = viewport === "mobile";
+  const visibleChannels = compactForm ? CONTACT.channels.slice(0, 2) : CONTACT.channels;
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
@@ -222,31 +412,25 @@ function ContactStage({ reduceMotion }: { reduceMotion: boolean }) {
         transition={reduceMotion ? { duration: 0 } : { duration: 0.28, delay: 0.04 }}
       >
         <div className="contact-stage__intro">
-          <p className="contact-stage__eyebrow">Contact Us</p>
-          <h2 className="contact-stage__title">Bring the next launch to us and we will shape the orbit around it.</h2>
-          <p className="contact-stage__copy">
-            Share the brief, the blockers, or the ambition. We can turn rough direction into a sharper roadmap for design, acquisition, content, and
-            automation.
-          </p>
+          <p className="contact-stage__eyebrow">{CONTACT.eyebrow}</p>
+          <h2 className="contact-stage__title">{CONTACT.title}</h2>
+          <p className="contact-stage__copy">{CONTACT.copy}</p>
 
           <div className="contact-stage__highlights">
-            <div className="contact-stage__highlight">
-              <span className="contact-stage__highlight-label">Response window</span>
-              <strong>Within 24 hours</strong>
-            </div>
-            <div className="contact-stage__highlight">
-              <span className="contact-stage__highlight-label">Best for</span>
-              <strong>Growth-focused brands</strong>
-            </div>
+            {CONTACT.highlights.map((highlight) => (
+              <div key={highlight.label} className="contact-stage__highlight">
+                <span className="contact-stage__highlight-label">{highlight.label}</span>
+                <strong>{highlight.value}</strong>
+              </div>
+            ))}
           </div>
 
           <div className="contact-stage__channels">
-            <a className="contact-stage__channel" href="mailto:hello@zyflus.com">
-              hello@zyflus.com
-            </a>
-            <a className="contact-stage__channel" href="tel:+910000000000">
-              +91 00000 00000
-            </a>
+            {visibleChannels.map((channel) => (
+              <a key={channel.type} className="contact-stage__channel" href={channel.href}>
+                {channel.value}
+              </a>
+            ))}
           </div>
         </div>
 
@@ -258,51 +442,25 @@ function ContactStage({ reduceMotion }: { reduceMotion: boolean }) {
           transition={reduceMotion ? { duration: 0 } : { duration: 0.3, delay: 0.1 }}
         >
           <div className="contact-form__grid">
-            <label className="contact-form__field">
-              <span>Name</span>
-              <input type="text" placeholder="Your name" />
-            </label>
-
-            <label className="contact-form__field">
-              <span>Email</span>
-              <input type="email" placeholder="name@brand.com" />
-            </label>
-
-            <label className="contact-form__field">
-              <span>Company</span>
-              <input type="text" placeholder="Brand or company" />
-            </label>
-
-            <label className="contact-form__field">
-              <span>Budget</span>
-              <select defaultValue="">
-                <option value="" disabled>
-                  Select budget range
-                </option>
-                <option value="starter">Starter launch</option>
-                <option value="growth">Growth sprint</option>
-                <option value="scale">Scale partner</option>
-              </select>
-            </label>
-
-            <label className="contact-form__field contact-form__field--full">
-              <span>Project scope</span>
-              <textarea rows={5} placeholder="Tell us what you need, what is broken, and where you want to go next." />
-            </label>
-          </div>
-
-          <div className="contact-form__services">
-            {CONTACT_SERVICES.map((service) => (
-              <span key={service} className="contact-form__service-pill">
-                {service}
-              </span>
+            {CONTACT.formFields.map((field) => (
+              <ContactFieldControl key={field.name} field={field} compact={compactForm} />
             ))}
           </div>
 
+          {!compactForm ? (
+            <div className="contact-form__services">
+              {CONTACT.services.map((service) => (
+                <span key={service} className="contact-form__service-pill">
+                  {service}
+                </span>
+              ))}
+            </div>
+          ) : null}
+
           <div className="contact-form__footer">
-            <p className="contact-form__note">A cleaner intake flow and CRM integration can be wired in once your final stack is locked.</p>
+            {!compactForm ? <p className="contact-form__note">{CONTACT.note}</p> : null}
             <button type="submit" className="contact-form__button">
-              Start the conversation
+              {CONTACT.submitButton}
             </button>
           </div>
         </motion.form>
@@ -311,7 +469,15 @@ function ContactStage({ reduceMotion }: { reduceMotion: boolean }) {
   );
 }
 
-function FooterStage({ reduceMotion }: { reduceMotion: boolean }) {
+function FooterStage({
+  reduceMotion,
+  viewport,
+}: {
+  reduceMotion: boolean;
+  viewport: ViewportMode;
+}) {
+  const compact = viewport === "mobile";
+
   return (
     <StageSection stageKey="footer-stage" className="footer-stage" reduceMotion={reduceMotion}>
       <motion.div
@@ -321,53 +487,64 @@ function FooterStage({ reduceMotion }: { reduceMotion: boolean }) {
         transition={reduceMotion ? { duration: 0 } : { duration: 0.28, delay: 0.04 }}
       >
         <div className="footer-stage__brand">
-          <p className="footer-stage__eyebrow">Ready To Launch</p>
-          <h2 className="footer-stage__title">ZYFLUS builds attention systems that look sharp and pull their weight.</h2>
-          <p className="footer-stage__copy">
-            Websites, campaigns, content, and automation designed to feel premium, stay clear, and keep compounding after the first launch.
-          </p>
-          <a className="footer-stage__cta" href="mailto:hello@zyflus.com">
-            hello@zyflus.com
+          <p className="footer-stage__eyebrow">{FOOTER.eyebrow}</p>
+          <h2 className="footer-stage__title">{FOOTER.title}</h2>
+          <p className="footer-stage__copy">{FOOTER.copy}</p>
+          <a className="footer-stage__cta" href={FOOTER.cta.href}>
+            {FOOTER.cta.label}
           </a>
         </div>
 
         <div className="footer-stage__columns">
           <div className="footer-stage__column">
             <h3>Navigate</h3>
-            {FOOTER_NAV.map((item) => (
-              <a key={item} href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}>
-                {item}
-              </a>
+            {FOOTER.navigate.map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
             ))}
           </div>
 
-          <div className="footer-stage__column">
-            <h3>Services</h3>
-            {FOOTER_SERVICES.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
-          </div>
+          {!compact ? (
+            <div className="footer-stage__column">
+              <h3>Services</h3>
+              {FOOTER.services.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
+          ) : null}
+
+          {!compact ? (
+            <div className="footer-stage__column">
+              <h3>Social</h3>
+              {FOOTER.socials.map((item) => (
+                <a key={item.label} href={item.href} target="_blank" rel="noreferrer">
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          ) : null}
 
           <div className="footer-stage__column">
-            <h3>Social</h3>
-            {FOOTER_SOCIALS.map((item) => (
-              <a key={item} href="#main-nav">
-                {item}
-              </a>
+            <h3>Legal</h3>
+            {FOOTER.legal.map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
             ))}
           </div>
         </div>
 
         <div className="footer-stage__bottom">
-          <span>c 2026 ZYFLUS. Built for bold launches.</span>
-          <span>Case studies, logos, and live integrations can drop in next.</span>
+          <span>{FOOTER.bottomLeft}</span>
+          {!compact ? <span>{FOOTER.bottomRight}</span> : null}
         </div>
       </motion.div>
     </StageSection>
   );
 }
 
-export default function HeroOverlay() {
+export default function HeroOverlay({ viewport }: { viewport: ViewportMode }) {
   const [scrolled, setScrolled] = useState(false);
   const [activeStage, setActiveStage] = useState<SceneStage>(0);
   const reduceMotion = Boolean(useReducedMotion());
@@ -393,13 +570,10 @@ export default function HeroOverlay() {
     if (!rawStage) return;
 
     const parsedStage = Number.parseInt(rawStage, 10);
-    if (!Number.isFinite(parsedStage) || parsedStage < 0 || parsedStage > 5) return;
+    if (!Number.isFinite(parsedStage) || parsedStage < 0 || parsedStage >= EXPERIENCE_STAGE_COUNT) return;
 
     const scrollToStage = () => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (maxScroll <= 0) return;
-      const normalized = parsedStage / 5;
-      window.scrollTo({ top: maxScroll * normalized, behavior: "auto" });
+      scrollToExperienceStage(parsedStage as SceneStage, "auto");
     };
 
     const timer = window.setTimeout(scrollToStage, 120);
@@ -426,37 +600,22 @@ export default function HeroOverlay() {
 
   return (
     <>
-      <nav className="hero-nav" id="main-nav">
-        <div className="nav-logo">ZYFLUS</div>
-        <div className="nav-links">
-          <a href="#home" className="nav-link">
-            HOME
-          </a>
-          <a href="#explore" className="nav-link">
-            EXPLORE
-          </a>
-          <a href="#services" className="nav-link">
-            SERVICES
-          </a>
-          <a href="#contact" className="nav-link">
-            CONTACT
-          </a>
-          <a href="#login" className="nav-link">
-            LOGIN
-          </a>
-        </div>
-      </nav>
-
-      <div className={`scroll-indicator ${scrolled ? "scroll-indicator--hidden" : ""}`} id="scroll-indicator">
+      <button
+        type="button"
+        className={`scroll-indicator ${scrolled ? "scroll-indicator--hidden" : ""}`}
+        id="scroll-indicator"
+        onClick={() => scrollToExperienceStage(1)}
+      >
         <div className="scroll-chevron">&#8964;</div>
-        <span className="scroll-label">SCROLL TO JOURNEY</span>
-      </div>
+        <span className="scroll-label">{HERO.scrollLabel}</span>
+      </button>
 
       <AnimatePresence initial={false}>
+        {activeStage === 1 ? <ServicesStage reduceMotion={reduceMotion} viewport={viewport} /> : null}
         {activeStage === 2 ? <ClientsStage reduceMotion={reduceMotion} /> : null}
-        {activeStage === 3 ? <CaseStudiesStage reduceMotion={reduceMotion} /> : null}
-        {activeStage === 4 ? <ContactStage reduceMotion={reduceMotion} /> : null}
-        {activeStage === 5 ? <FooterStage reduceMotion={reduceMotion} /> : null}
+        {activeStage === 3 ? <CaseStudiesStage reduceMotion={reduceMotion} viewport={viewport} /> : null}
+        {activeStage === 4 ? <ContactStage reduceMotion={reduceMotion} viewport={viewport} /> : null}
+        {activeStage === 5 ? <FooterStage reduceMotion={reduceMotion} viewport={viewport} /> : null}
       </AnimatePresence>
     </>
   );

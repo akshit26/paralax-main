@@ -1,2 +1,3 @@
-2026/04/16-23:28:18.765 4768 Creating DB C:\Users\Asus\Downloads\paralax\.cdp-profile-case\Default\shared_proto_db\metadata since it was missing.
-2026/04/16-23:28:18.774 4768 Reusing MANIFEST C:\Users\Asus\Downloads\paralax\.cdp-profile-case\Default\shared_proto_db\metadata/MANIFEST-000001
+2026/04/17-00:21:07.082 586c Reusing MANIFEST C:\Users\Asus\Downloads\paralax\.cdp-profile-case\Default\shared_proto_db\metadata/MANIFEST-000001
+2026/04/17-00:21:07.083 586c Recovering log #3
+2026/04/17-00:21:07.084 586c Reusing old log C:\Users\Asus\Downloads\paralax\.cdp-profile-case\Default\shared_proto_db\metadata/000003.log 

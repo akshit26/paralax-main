@@ -2,6 +2,8 @@
 
 import dynamic from "next/dynamic";
 
+import type { ViewportMode } from "./experienceConfig";
+
 const MainCanvas = dynamic(() => import("@/components/MainCanvas"), {
   ssr: false,
   loading: () => (
@@ -12,6 +14,6 @@ const MainCanvas = dynamic(() => import("@/components/MainCanvas"), {
   ),
 });
 
-export default function MainCanvasLoader() {
-  return <MainCanvas />;
+export default function MainCanvasLoader({ viewport }: { viewport: ViewportMode }) {
+  return <MainCanvas viewport={viewport} />;
 }

@@ -7,7 +7,14 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 
-import { CAMERA_STAGE_Y, EXPERIENCE_STAGE_EVENT, SCROLL_SNAP_POINTS, stageFromProgress, type SceneStage } from "./experienceConfig";
+import {
+  CAMERA_STAGE_Y,
+  EXPERIENCE_STAGE_EVENT,
+  SCROLL_SNAP_POINTS,
+  stageFromProgress,
+  type SceneStage,
+  type ViewportMode,
+} from "./experienceConfig";
 import Scene1MilkyWay from "./scenes/Scene1MilkyWay";
 import Scene2Earth from "./scenes/Scene2Earth";
 import Scene3Sky from "./scenes/Scene3Sky";
@@ -17,8 +24,15 @@ import Scene6FooterStage from "./scenes/Scene6FooterStage";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function CameraController({ onStageChange }: { onStageChange: (stage: SceneStage) => void }) {
+function CameraController({
+  onStageChange,
+  viewport,
+}: {
+  onStageChange: (stage: SceneStage) => void;
+  viewport: ViewportMode;
+}) {
   const group = useRef<THREE.Group>(null);
+  const cameraFov = viewport === "mobile" ? 78 : viewport === "tablet" ? 74 : 70;
 
   useEffect(() => {
     if (!group.current) return;
@@ -69,55 +83,57 @@ function CameraController({ onStageChange }: { onStageChange: (stage: SceneStage
 
   return (
     <group ref={group} position={[0, CAMERA_STAGE_Y[0], 0]}>
-      <PerspectiveCamera makeDefault fov={70} position={[0, 0, 0]} near={0.1} far={1000} />
+      <PerspectiveCamera makeDefault fov={cameraFov} position={[0, 0, 0]} near={0.1} far={1000} />
     </group>
   );
 }
 
-export default function MainCanvas() {
+export default function MainCanvas({ viewport }: { viewport: ViewportMode }) {
   const [loadedStage, setLoadedStage] = useState<SceneStage>(0);
+  const canvasDpr: [number, number] = viewport === "mobile" ? [1, 1.12] : viewport === "tablet" ? [1, 1.18] : [1, 1.25];
 
   return (
     <div className="fixed inset-0 h-screen w-screen">
-      <Canvas dpr={[1, 1.25]} gl={{ antialias: false, powerPreference: "low-power" }} performance={{ min: 0.72 }}>
+      <Canvas dpr={canvasDpr} gl={{ antialias: false, powerPreference: "low-power" }} performance={{ min: 0.72 }}>
         <ambientLight intensity={0.68} color="#ffffff" />
         <directionalLight position={[5, 14, 6]} intensity={0.16} color="#ffffff" />
 
         <Suspense fallback={null}>
-          <Scene1MilkyWay />
+          <Scene1MilkyWay viewport={viewport} />
         </Suspense>
 
         {loadedStage >= 1 ? (
           <Suspense fallback={null}>
-            <Scene2Earth />
+            <Scene2Earth viewport={viewport} />
           </Suspense>
         ) : null}
 
         {loadedStage >= 2 ? (
           <Suspense fallback={null}>
-            <Scene3Sky />
+            <Scene3Sky viewport={viewport} />
           </Suspense>
         ) : null}
 
         {loadedStage >= 3 ? (
           <Suspense fallback={null}>
-            <Scene4CaseStudies />
+            <Scene4CaseStudies viewport={viewport} />
           </Suspense>
         ) : null}
 
         {loadedStage >= 4 ? (
           <Suspense fallback={null}>
-            <Scene5Contact />
+            <Scene5Contact viewport={viewport} />
           </Suspense>
         ) : null}
 
         {loadedStage >= 5 ? (
           <Suspense fallback={null}>
-            <Scene6FooterStage />
+            <Scene6FooterStage viewport={viewport} />
           </Suspense>
         ) : null}
 
         <CameraController
+          viewport={viewport}
           onStageChange={(stage) => {
             startTransition(() => {
               setLoadedStage((current) => (current >= stage ? current : stage));

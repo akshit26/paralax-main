@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
-import { SCENE_CENTERS } from "../experienceConfig";
+import { SCENE_CENTERS, type ViewportMode } from "../experienceConfig";
 
 const CONTACT_CENTER = SCENE_CENTERS.contact;
 
@@ -144,34 +144,40 @@ function FloatingRelay({
   );
 }
 
-export default function Scene5Contact() {
+export default function Scene5Contact({ viewport }: { viewport: ViewportMode }) {
+  const sceneScale = viewport === "mobile" ? 0.7 : viewport === "tablet" ? 0.9 : 1;
+  const sceneOffsetX = viewport === "mobile" ? 2.6 : viewport === "tablet" ? 0.8 : 0;
+  const sceneOffsetY = viewport === "mobile" ? 1.2 : viewport === "tablet" ? 0.35 : 0;
+
   return (
     <group position={CONTACT_CENTER}>
-      <ambientLight intensity={0.16} color="#f5f9ff" />
-      <pointLight position={[-12, 4, 4]} intensity={1.2} distance={22} decay={2} color="#ffbe74" />
-      <pointLight position={[17, 5.4, 4]} intensity={0.95} distance={26} decay={2} color="#7eb4ff" />
+      <group position={[sceneOffsetX, sceneOffsetY, 0]} scale={sceneScale}>
+        <ambientLight intensity={0.16} color="#f5f9ff" />
+        <pointLight position={[-12, 4, 4]} intensity={1.2} distance={22} decay={2} color="#ffbe74" />
+        <pointLight position={[17, 5.4, 4]} intensity={0.95} distance={26} decay={2} color="#7eb4ff" />
 
-      <mesh position={[15.8, 1, -5.6]} scale={[7.4, 7.4, 1]}>
-        <circleGeometry args={[1, 72]} />
-        <meshBasicMaterial
-          color="#6da6ff"
-          transparent
-          opacity={0.018}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-          toneMapped={false}
-        />
-      </mesh>
+        <mesh position={[15.8, 1, -5.6]} scale={[7.4, 7.4, 1]}>
+          <circleGeometry args={[1, 72]} />
+          <meshBasicMaterial
+            color="#6da6ff"
+            transparent
+            opacity={0.018}
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+            toneMapped={false}
+          />
+        </mesh>
 
-      <PulseRing position={[-14.4, -0.2, -1.4]} baseScale={1.25} color="#ffbd69" speed={1.8} delay={0} />
-      <PulseRing position={[-14.4, -0.2, -1.42]} baseScale={1.95} color="#ffbd69" speed={1.35} delay={1.5} />
-      <PulseRing position={[-14.4, -0.2, -1.44]} baseScale={2.65} color="#9ec8ff" speed={1.05} delay={2.2} />
+        <PulseRing position={[-14.4, -0.2, -1.4]} baseScale={1.25} color="#ffbd69" speed={1.8} delay={0} />
+        <PulseRing position={[-14.4, -0.2, -1.42]} baseScale={1.95} color="#ffbd69" speed={1.35} delay={1.5} />
+        <PulseRing position={[-14.4, -0.2, -1.44]} baseScale={2.65} color="#9ec8ff" speed={1.05} delay={2.2} />
 
-      <BeaconCore />
-      <TransmissionPath />
-      <FloatingRelay position={[4.2, 5.8, -2.2]} tint="#8ebcff" />
-      <FloatingRelay position={[14.8, 3.2, -2.7]} tint="#ffbd69" />
-      <FloatingRelay position={[20.6, 5.2, -3.1]} tint="#a4ccff" />
+        <BeaconCore />
+        <TransmissionPath />
+        <FloatingRelay position={[4.2, 5.8, -2.2]} tint="#8ebcff" />
+        <FloatingRelay position={[14.8, 3.2, -2.7]} tint="#ffbd69" />
+        <FloatingRelay position={[20.6, 5.2, -3.1]} tint="#a4ccff" />
+      </group>
     </group>
   );
 }

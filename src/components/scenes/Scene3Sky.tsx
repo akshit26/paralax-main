@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { Float, useGLTF } from "@react-three/drei";
 import { clone as cloneSkeleton } from "three/examples/jsm/utils/SkeletonUtils.js";
-import { SCENE_CENTERS } from "../experienceConfig";
+import { SCENE_CENTERS, type ViewportMode } from "../experienceConfig";
 
 const CLIENTS_CENTER = SCENE_CENTERS.clients;
 
@@ -209,16 +209,21 @@ function ClientConstellation() {
   );
 }
 
-export default function Scene3Sky() {
+export default function Scene3Sky({ viewport }: { viewport: ViewportMode }) {
+  const sceneScale = viewport === "mobile" ? 0.78 : viewport === "tablet" ? 0.9 : 1;
+  const sceneOffsetX = viewport === "mobile" ? 2.2 : viewport === "tablet" ? 1 : 0;
+
   return (
     <group position={CLIENTS_CENTER}>
-      <hemisphereLight position={[0, 6, 3]} intensity={0.34} color="#e4eeff" groundColor="#04070d" />
-      <directionalLight position={[-2.4, 5.7, 5]} intensity={0.46} color="#ffffff" />
+      <group position={[sceneOffsetX, 0, 0]} scale={sceneScale}>
+        <hemisphereLight position={[0, 6, 3]} intensity={0.34} color="#e4eeff" groundColor="#04070d" />
+        <directionalLight position={[-2.4, 5.7, 5]} intensity={0.46} color="#ffffff" />
 
-      <SubtleGlow position={[-22.9, 0.96, -4.2]} scale={3.2} color="#ffb347" opacity={0.04} />
-      <SubtleGlow position={[-22.6, 0.5, -4.1]} scale={2.5} color="#79b0ff" opacity={0.02} />
-      <Astronaut />
-      <ClientConstellation />
+        <SubtleGlow position={[-22.9, 0.96, -4.2]} scale={3.2} color="#ffb347" opacity={0.04} />
+        <SubtleGlow position={[-22.6, 0.5, -4.1]} scale={2.5} color="#79b0ff" opacity={0.02} />
+        <Astronaut />
+        <ClientConstellation />
+      </group>
     </group>
   );
 }
