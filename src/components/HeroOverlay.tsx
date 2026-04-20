@@ -242,8 +242,14 @@ function CaseStudiesStage({
   const [mobileStudyIndex, setMobileStudyIndex] = useState(0);
   const isMobile = viewport === "mobile";
   const homeStudies = getCuratedHomeStudies();
-  const featuredStudy = getCaseStudyBySlug(HOME_CASE_STUDIES.featuredId) ?? homeStudies[0];
-  const secondaryStudy = getCaseStudyBySlug(HOME_CASE_STUDIES.secondaryId) ?? homeStudies[1] ?? homeStudies[0];
+  const fallbackStudy = homeStudies[0] ?? CASE_STUDIES.items[0];
+
+  if (!fallbackStudy) {
+    return null;
+  }
+
+  const featuredStudy = getCaseStudyBySlug(HOME_CASE_STUDIES.featuredId) ?? fallbackStudy;
+  const secondaryStudy = getCaseStudyBySlug(HOME_CASE_STUDIES.secondaryId) ?? homeStudies[1] ?? fallbackStudy;
   const mobileStudy = homeStudies[mobileStudyIndex] ?? featuredStudy;
   const featuredMetric = featuredStudy.metrics[0];
   const secondaryMetrics = secondaryStudy.metrics.slice(0, 2);
